@@ -1,5 +1,6 @@
 <html>
 <head>
+	<link href="favicon.png" rel="icon" type="image/x-icon" />
 	<title id="title">RichText - Untitled.html</title>
 	<script>
   function changeFont(font) {
@@ -76,6 +77,9 @@ function onChooseFile(event, onLoadFileHandler) {
     fr.onload = onLoadFileHandler;
     fr.readAsText(file);
 }
+      function about() {
+        alert("RichText 1.0: A rich text editor\n\nBy Droc101\ndroc101.github.io");
+      }
   </script>
 	<style type="text/css">button {
     padding: 5px;
@@ -99,9 +103,11 @@ function onChooseFile(event, onLoadFileHandler) {
 	</style>
 </head>
 <body>
-<div style="background:#eee;padding:5px 10px;"><label>Text Editor&nbsp;</label><button onclick="document.execCommand('bold',false,null);"><b>b</b></button><button onclick="document.execCommand('underline',false,null);"><u>u</u></button><button onclick="document.execCommand('italic',false,null);"><i>i</i></button><button onclick="document.execCommand('strikethrough',false,null);"><strike>S</strike></button><select id="select_font" onchange="changeFont(this);"><option value="Arial">Arial</option><option value="Sans Serif">Sans Serif</option><option value="Comic Sans MS">Comic Sans MS</option><option selected="selected" value="Times New Roman">Times New Roman (Default)</option><option value="Courier New">Courier New</option><option value="Verdana">Verdana</option><option value="Trebuchet MS">Trebuchet MS</option><option value="Arial Black">Arial Black</option><option value="Impact">Impact</option><option value="Bookman">Bookman</option><option value="Garamond">Garamond</option><option value="Palatino">Palatino</option><option value="Georgia">Georgia</option></select><input id="color" onchange="setColor()" title="Font Color" type="color" /><input id="bgcolor" onchange="setBgColor()" title="Highlight Color" type="color" /><button onclick="PrintElem('docunent');">Print</button>|<input id="name" title="Document Title" type="text" value="Untitled.html" /><button onclick="document.title = 'RichText - ' +  document.getElementById('name').value" title="Update document title">OK</button><button onclick="save()">Download</button><input onchange="onChooseFile(event, onFileLoad.bind(this, &quot;document&quot;))" title="Open File" type="file" /></div>
+<center>
+<div style="background:#eee;padding:5px 10px;"><label><a onclick="about();"><strong><span style="font-family:arial,helvetica,sans-serif;">RichText 1.0</span></strong></a>&nbsp;</label><button onclick="document.execCommand('bold',false,null);"><b>b</b></button><button onclick="document.execCommand('underline',false,null);"><u>u</u></button><button onclick="document.execCommand('italic',false,null);"><i>i</i></button><button onclick="document.execCommand('strikethrough',false,null);"><strike>S</strike></button><select id="select_font" onchange="changeFont(this);"><option value="Arial">Arial</option><option value="Sans Serif">Sans Serif</option><option value="Comic Sans MS">Comic Sans MS</option><option selected="selected" value="Times New Roman">Times New Roman (Default)</option><option value="Courier New">Courier New</option><option value="Verdana">Verdana</option><option value="Trebuchet MS">Trebuchet MS</option><option value="Arial Black">Arial Black</option><option value="Impact">Impact</option><option value="Bookman">Bookman</option><option value="Garamond">Garamond</option><option value="Palatino">Palatino</option><option value="Georgia">Georgia</option></select><input id="color" onchange="setColor()" title="Font Color" type="color" /><input id="bgcolor" onchange="setBgColor()" title="Highlight Color" type="color" /><button onclick="PrintElem('docunent');">Print</button>|<input id="name" title="Document Title" type="text" value="Untitled.html" /><button onclick="document.title = 'RichText - ' +  document.getElementById('name').value" title="Update document title">OK</button><button onclick="save()">Download</button><input onchange="onChooseFile(event, onFileLoad.bind(this, &quot;document&quot;))" title="Open File" type="file" /></div>
 
-<div contenteditable="" id="document" style="border:1px solid #ccc;padding:5px 10px;height:90%;overflow:scroll;">
+<div align="center" contenteditable="" id="document" style="border:1px solid #ccc;padding:5px 10px;height:90%;overflow:scroll;width:700px;">
+<div align="left">
 <p>All New <strong>Rich</strong> <em>Text</em> <u>Editor</u> 1.0</p>
 
 <p>Saves as HTML</p>
@@ -114,5 +120,7 @@ function onChooseFile(event, onLoadFileHandler) {
 
 <p>Many <span style="font-family:comic sans ms,cursive;">Fonts</span></p>
 </div>
+</div>
+</center>
 </body>
 </html>
