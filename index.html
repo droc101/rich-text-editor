@@ -1,0 +1,118 @@
+<html>
+<head>
+	<title id="title">RichText - Untitled.html</title>
+	<script>
+  function changeFont(font) {
+  var sel = window.getSelection();
+  if (sel.rangeCount) {
+    var e = document.createElement('span');
+    e.style = 'font-family:' + font.value + ';'; 
+    e.innerHTML = sel.toString();
+
+    var range = sel.getRangeAt(0);
+    range.deleteContents();
+    range.insertNode(e);
+    
+    
+  }
+}
+      function PrintElem(elem)
+{
+    childWindow = window.open('','childWindow','location=yes, menubar=yes, toolbar=yes');//open a window
+        childWindow.document.open();//make it a document
+        childWindow.document.write('<html><head><title>Print</title></head><body>');//add the html's starting tags
+        childWindow.document.write(document.getElementById('document').innerHTML);//add the textarea
+        childWindow.document.write('</body></html>');//close the html
+        childWindow.print();//print it and wait for completion
+        childWindow.document.close();//close the document
+        childWindow.close();//close the window
+}
+      function setColor() {
+
+    
+    var selection = window.getSelection().getRangeAt(0);
+    var selectedText = selection.extractContents();
+    var span = document.createElement('span');
+    span.style.color = document.getElementById('color').value;
+
+    span.appendChild(selectedText);
+    selection.insertNode(span);
+      }
+      function setBgColor() {
+
+    var selection = window.getSelection().getRangeAt(0);
+    var selectedText = selection.extractContents();
+    var span = document.createElement('span');
+    span.style.backgroundColor = document.getElementById('bgcolor').value;
+    span.appendChild(selectedText);
+    selection.insertNode(span);
+      }
+      function save() {
+        var a = document.body.appendChild(
+        document.createElement("a")
+    );
+a.download = document.getElementById('name').value;
+a.href = "data:text/html," + document.getElementById("document").innerHTML;
+a.innerHTML = "[Export conent]";
+        a.click();
+      }
+      
+      function onFileLoad(elementId, event) {
+    document.getElementById(elementId).innerHTML = event.target.result;
+}
+
+function onChooseFile(event, onLoadFileHandler) {
+    if (typeof window.FileReader !== 'function')
+        throw ("The file API is not supported by this browser.");
+    let input = event.target;
+    if (!input)
+        throw ("This browser does not support the event object.");
+    if (!input.files)
+        throw ("This browser does not support the file input.");
+    if (!input.files[0])
+        return undefined;
+    let file = input.files[0];
+    let fr = new FileReader();
+    fr.onload = onLoadFileHandler;
+    fr.readAsText(file);
+}
+  </script>
+	<style type="text/css">button {
+    padding: 5px;
+    }
+    select {
+       	padding: 5px; 
+    }
+    input {
+      padding:5px;
+    }
+     input[type=color] {
+       height: 30px;
+       width: 30px;
+      }
+      body {
+        background-color: #eee;
+      }
+      #document {
+        background-color: #fff;
+      }
+	</style>
+</head>
+<body>
+<div style="background:#eee;padding:5px 10px;"><label>Text Editor&nbsp;</label><button onclick="document.execCommand('bold',false,null);"><b>b</b></button><button onclick="document.execCommand('underline',false,null);"><u>u</u></button><button onclick="document.execCommand('italic',false,null);"><i>i</i></button><button onclick="document.execCommand('strikethrough',false,null);"><strike>S</strike></button><select id="select_font" onchange="changeFont(this);"><option value="Arial">Arial</option><option value="Sans Serif">Sans Serif</option><option value="Comic Sans MS">Comic Sans MS</option><option selected="selected" value="Times New Roman">Times New Roman (Default)</option><option value="Courier New">Courier New</option><option value="Verdana">Verdana</option><option value="Trebuchet MS">Trebuchet MS</option><option value="Arial Black">Arial Black</option><option value="Impact">Impact</option><option value="Bookman">Bookman</option><option value="Garamond">Garamond</option><option value="Palatino">Palatino</option><option value="Georgia">Georgia</option></select><input id="color" onchange="setColor()" title="Font Color" type="color" /><input id="bgcolor" onchange="setBgColor()" title="Highlight Color" type="color" /><button onclick="PrintElem('docunent');">Print</button>|<input id="name" title="Document Title" type="text" value="Untitled.html" /><button onclick="document.title = 'RichText - ' +  document.getElementById('name').value" title="Update document title">OK</button><button onclick="save()">Download</button><input onchange="onChooseFile(event, onFileLoad.bind(this, &quot;document&quot;))" title="Open File" type="file" /></div>
+
+<div contenteditable="" id="document" style="border:1px solid #ccc;padding:5px 10px;height:90%;overflow:scroll;">
+<p>All New <strong>Rich</strong> <em>Text</em> <u>Editor</u> 1.0</p>
+
+<p>Saves as HTML</p>
+
+<p>Prints flawlessly</p>
+
+<p>Opens HTML too!</p>
+
+<p>&nbsp;</p>
+
+<p>Many <span style="font-family:comic sans ms,cursive;">Fonts</span></p>
+</div>
+</body>
+</html>
