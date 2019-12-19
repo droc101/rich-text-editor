@@ -14,8 +14,14 @@
     range.deleteContents();
     range.insertNode(e);
     
+    font.value = "f";
     
   }
+}
+      
+      function changeSize(font) {
+  	document.execCommand("fontSize", false, font.value);
+        font.value = "f";
 }
       function PrintElem(elem)
 {
@@ -30,23 +36,7 @@
 }
       function setColor() {
 
-    
-    var selection = window.getSelection().getRangeAt(0);
-    var selectedText = selection.extractContents();
-    var span = document.createElement('span');
-    span.style.color = document.getElementById('color').value;
-
-    span.appendChild(selectedText);
-    selection.insertNode(span);
-      }
-      function setBgColor() {
-
-    var selection = window.getSelection().getRangeAt(0);
-    var selectedText = selection.extractContents();
-    var span = document.createElement('span');
-    span.style.backgroundColor = document.getElementById('bgcolor').value;
-    span.appendChild(selectedText);
-    selection.insertNode(span);
+        document.execCommand("foreColor", false, document.getElementById('color').value);
       }
       function save() {
         var a = document.body.appendChild(
@@ -78,7 +68,17 @@ function onChooseFile(event, onLoadFileHandler) {
     fr.readAsText(file);
 }
       function about() {
-        alert("RichText 1.0: A rich text editor\n\nBy Droc101\ndroc101.github.io");
+        alert("RichText 2.0: A rich text editor\n\nBy Droc101\ndroc101.github.io");
+      }
+      function justify(obj) {
+        if (obj.value == "l") {
+          document.execCommand("justifyLeft");
+        }else if (obj.value == "c") {
+          document.execCommand("justifyCenter");
+        }else if (obj.value == "r") {
+          document.execCommand("justifyRight");
+        }
+        obj.value = "n"
       }
   </script>
 	<style type="text/css">button {
@@ -96,6 +96,7 @@ function onChooseFile(event, onLoadFileHandler) {
       }
       body {
         background-color: #eee;
+        margin: 0px;
       }
       #document {
         background-color: #fff;
@@ -104,11 +105,11 @@ function onChooseFile(event, onLoadFileHandler) {
 </head>
 <body>
 <center>
-<div style="background:#eee;padding:5px 10px;"><label><a onclick="about();"><strong><span style="font-family:arial,helvetica,sans-serif;">RichText 1.0</span></strong></a>&nbsp;</label><button onclick="document.execCommand('bold',false,null);"><b>b</b></button><button onclick="document.execCommand('underline',false,null);"><u>u</u></button><button onclick="document.execCommand('italic',false,null);"><i>i</i></button><button onclick="document.execCommand('strikethrough',false,null);"><strike>S</strike></button><select id="select_font" onchange="changeFont(this);"><option value="Arial">Arial</option><option value="Sans Serif">Sans Serif</option><option value="Comic Sans MS">Comic Sans MS</option><option selected="selected" value="Times New Roman">Times New Roman (Default)</option><option value="Courier New">Courier New</option><option value="Verdana">Verdana</option><option value="Trebuchet MS">Trebuchet MS</option><option value="Arial Black">Arial Black</option><option value="Impact">Impact</option><option value="Bookman">Bookman</option><option value="Garamond">Garamond</option><option value="Palatino">Palatino</option><option value="Georgia">Georgia</option></select><input id="color" onchange="setColor()" title="Font Color" type="color" /><input id="bgcolor" onchange="setBgColor()" title="Highlight Color" type="color" /><button onclick="PrintElem('docunent');">Print</button>|<input id="name" title="Document Title" type="text" value="Untitled.html" /><button onclick="document.title = 'RichText - ' +  document.getElementById('name').value" title="Update document title">OK</button><button onclick="save()">Download</button><input onchange="onChooseFile(event, onFileLoad.bind(this, &quot;document&quot;))" title="Open File" type="file" /></div>
+<div style="background:#fff;padding:5px 10px;"><label><a onclick="about();"><strong><span style="font-family:arial,helvetica,sans-serif;">RichText 2.0</span></strong></a>&nbsp;</label><button onclick="document.execCommand('undo');">Undo</button><button onclick="document.execCommand('redo');">Redo</button><button onclick="document.execCommand('bold',false,null);"><b>b</b></button><button onclick="document.execCommand('underline',false,null);"><u>u</u></button><button onclick="document.execCommand('italic',false,null);"><i>i</i></button><button onclick="document.execCommand('strikethrough',false,null);"><strike>S</strike></button><button onclick="document.execCommand('superscript')"><sup>S</sup></button><button onclick="document.execCommand('subscript')"><sub>S</sub></button><select id="select_font" onchange="changeFont(this);"><option disabled="disabled" selected="selected" value="f">Font</option><option value="Arial">Arial</option><option value="Sans Serif">Sans Serif</option><option value="Comic Sans MS">Comic Sans MS</option><option value="Times New Roman">Times New Roman (Default)</option><option value="Courier New">Courier New</option><option value="Verdana">Verdana</option><option value="Trebuchet MS">Trebuchet MS</option><option value="Arial Black">Arial Black</option><option value="Impact">Impact</option><option value="Bookman">Bookman</option><option value="Garamond">Garamond</option><option value="Palatino">Palatino</option><option value="Georgia">Georgia</option></select><select onchange="changeSize(this);"><option disabled="disabled" selected="selected" value="f">Font Size</option><option value="1">Small</option><option value="3">Normal</option><option value="5">Large</option><option value="7">X Large</option></select><input id="color" onchange="setColor()" title="Font Color" type="color" /><select onchange="justify(this);"><option disabled="disabled" selected="selected" value="n">Justify</option><option value="l">Left</option><option value="c">Center</option><option value="r">Right</option></select><button onclick="PrintElem('docunent');">Print</button>|<input id="name" title="Document Title" type="text" value="Untitled.html" /><button onclick="document.title = 'RichText - ' +  document.getElementById('name').value" title="Update document title">OK</button><button onclick="save()">Download</button><input onchange="onChooseFile(event, onFileLoad.bind(this, &quot;document&quot;))" title="Open File" type="file" /></div>
 
 <div align="center" contenteditable="" id="document" style="border:1px solid #ccc;padding:5px 10px;height:90%;overflow:scroll;width:700px;">
 <div align="left">
-<p>All New <strong>Rich</strong> <em>Text</em> <u>Editor</u> 1.0</p>
+<p>All New <strong>Rich</strong> <em>Text</em> <u>Editor</u>&nbsp;2.0</p>
 
 <p>Saves as HTML</p>
 
@@ -116,7 +117,7 @@ function onChooseFile(event, onLoadFileHandler) {
 
 <p>Opens HTML too!</p>
 
-<p>&nbsp;</p>
+<p><sub>sub</sub> and<sup> super</sup> script</p>
 
 <p>Many <span style="font-family:comic sans ms,cursive;">Fonts</span></p>
 </div>
