@@ -3,24 +3,8 @@
 	<link href="favicon.png" rel="icon" type="image/x-icon" />
 	<title id="title">RichText - Untitled.html</title>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /><script>
-  var div = document.getElementById('document');
-setTimeout(function() {
-    div.focus();
-}, 0);
   function changeFont(font) {
-  var sel = window.getSelection();
-  if (sel.rangeCount) {
-    var e = document.createElement('span');
-    e.style = 'font-family:' + font.value + ';'; 
-    e.innerHTML = sel.toString();
-
-    var range = sel.getRangeAt(0);
-    range.deleteContents();
-    range.insertNode(e);
-    
-    font.value = "f";
-    
-  }
+  document.execCommand('fontName', false, font.value);
 }
       
       function changeSize(font) {
@@ -125,13 +109,18 @@ function onChooseFile(event, onLoadFileHandler) {
         }
         body.value = 'i';
       }
-  function preview(body) {
-    if (body.checked) {
-      document.getElementById('document').contenteditable = false;
-    }else {
-      document.getElementById('document').contenteditable = true;
-    }
+  function preview() {
+      
+        childWindow = window.open('','childWindow','location=yes, menubar=yes, toolbar=yes');//open a window
+        childWindow.document.open();//make it a document
+        childWindow.document.write('<html><head><title>Print Preview</title></head><body style="background-color:#eee;overflow:scroll;"><center><div style="width:8.5in;height:11in;background-color: #fff;border:1px solid #ccc; padding:1in;" align="left">');//add the html's starting tags
+        childWindow.document.write(document.getElementById('document').innerHTML);//add the textarea
+        childWindow.document.write('</div></center></body></html>');//close the html
+        //childWindow.print();//print it and wait for completion
+        //childWindow.document.close();//close the document
+        //childWindow.close();//close the window
   }
+
   </script>
 	<style type="text/css">button {
     padding: 5px;
@@ -149,7 +138,7 @@ function onChooseFile(event, onLoadFileHandler) {
       body {
         background-color: #eee;
         margin: 0px;
-        overflow-x: hidden;
+        /*overflow-x: hidden;*/
       }
       #document {
         background-color: #fff;
@@ -165,7 +154,7 @@ box-shadow: 0px 0px 23px 1px rgba(0,0,0,0.75);
 <body>
 <center>
 <div style="background:#fff;padding:5px 10px;border-bottom:1px solid #999;position:fixed;top:0;left:0;right:0;"><label><a onclick="about();"><strong><span style="font-family:arial,helvetica,sans-serif;">RichText 2.0</span></strong></a>&nbsp;</label><input id="name" title="Document Title" type="text" value="Untitled.html" /><button onclick="document.title = 'RichText - ' +  document.getElementById('name').value" title="Update document title">Save Document Name</button><button onclick="save()">Download</button><input onchange="onChooseFile(event, onFileLoad.bind(this, &quot;document&quot;))" title="Open File" type="file" /><br />
-<button onclick="document.execCommand('undo');"><i class="material-icons">undo</i></button><button onclick="document.execCommand('redo');"><i class="material-icons">redo</i></button><button onclick="document.execCommand('bold',false,null);"><i class="material-icons">format_bold</i></button><button onclick="document.execCommand('underline',false,null);"><i class="material-icons">format_underline</i></button><button onclick="document.execCommand('italic',false,null);"><i class="material-icons">format_italic</i></button><button onclick="document.execCommand('strikethrough',false,null);"><i class="material-icons">format_strikethrough</i></button><button onclick="document.execCommand('superscript')"><sup>S</sup></button><button onclick="document.execCommand('subscript')"><sub>S</sub></button><select id="select_font" onchange="changeFont(this);"><option disabled="disabled" selected="selected" value="f">Font</option><option value="Arial">Arial</option><option value="Sans Serif">Sans Serif</option><option value="Comic Sans MS">Comic Sans MS</option><option value="Times New Roman">Times New Roman (Default)</option><option value="Courier New">Courier New</option><option value="Verdana">Verdana</option><option value="Trebuchet MS">Trebuchet MS</option><option value="Arial Black">Arial Black</option><option value="Impact">Impact</option><option value="Bookman">Bookman</option><option value="Garamond">Garamond</option><option value="Palatino">Palatino</option><option value="Georgia">Georgia</option></select><select onchange="changeSize(this);"><option disabled="disabled" selected="selected" value="f">Font Size</option><option value="1">Small</option><option value="3">Normal</option><option value="5">Large</option><option value="7">X Large</option></select><select onchange="styles(this);"><option disabled="disabled" selected="selected" value="s">Styles</option><option value="H1">Heading 1</option><option value="H2">Heading 2</option><option value="H3">Heading 3</option><option value="p">Paragraph</option><option value="pre">Preformatted</option></select><input id="color" onchange="setColor()" title="Font Color" type="color" /><select onchange="justify(this);"><option disabled="disabled" selected="selected" value="n">Justify</option><option value="l">Left</option><option value="c">Center</option><option value="r">Right</option></select><select onchange="insert(this);"><option disabled="disabled" selected="selected" value="i">Insert...</option><option value="image">Image</option><option value="url">URL</option><option value="rm-url">Remove URL</option><option value="bl">Bullet List</option><option value="nl">Numbered List</option><option vlaue="hr">Horizontal Rule</option></select><select onchange="indents(this);"><option disabled="disabled" selected="selected" value="i">Indents</option><option value="in">Indent</option><option value="out">Outdent</option></select><button onclick="PrintElem('docunent');"><i class="material-icons">print</i></button><button onclick="document.execCommand('removeFormat');"><i class="material-icons">format_clear</i></button></div>
+<button onclick="document.execCommand('undo');"><i class="material-icons">undo</i></button><button onclick="document.execCommand('redo');"><i class="material-icons">redo</i></button><button onclick="document.execCommand('bold',false,null);"><i class="material-icons">format_bold</i></button><button onclick="document.execCommand('underline',false,null);"><i class="material-icons">format_underline</i></button><button onclick="document.execCommand('italic',false,null);"><i class="material-icons">format_italic</i></button><button onclick="document.execCommand('strikethrough',false,null);"><i class="material-icons">format_strikethrough</i></button><button onclick="document.execCommand('superscript')"><sup>S</sup></button><button onclick="document.execCommand('subscript')"><sub>S</sub></button><select id="select_font" onchange="changeFont(this);"><option disabled="disabled" selected="selected" value="f">Font</option><option value="Arial">Arial</option><option value="Sans Serif">Sans Serif</option><option value="Comic Sans MS">Comic Sans MS</option><option value="Times New Roman">Times New Roman (Default)</option><option value="Courier New">Courier New</option><option value="Verdana">Verdana</option><option value="Trebuchet MS">Trebuchet MS</option><option value="Arial Black">Arial Black</option><option value="Impact">Impact</option><option value="Bookman">Bookman</option><option value="Garamond">Garamond</option><option value="Palatino">Palatino</option><option value="Georgia">Georgia</option></select><select onchange="changeSize(this);"><option disabled="disabled" selected="selected" value="f">Font Size</option><option value="1">Small</option><option value="3">Normal</option><option value="5">Large</option><option value="7">X Large</option></select><select onchange="styles(this);"><option disabled="disabled" selected="selected" value="s">Styles</option><option value="H1">Heading 1</option><option value="H2">Heading 2</option><option value="H3">Heading 3</option><option value="p">Paragraph</option><option value="pre">Preformatted</option></select><input id="color" onchange="setColor()" title="Font Color" type="color" /><select onchange="justify(this);"><option disabled="disabled" selected="selected" value="n">Justify</option><option value="l">Left</option><option value="c">Center</option><option value="r">Right</option></select><select onchange="insert(this);"><option disabled="disabled" selected="selected" value="i">Insert...</option><option value="image">Image</option><option value="url">URL</option><option value="rm-url">Remove URL</option><option value="bl">Bullet List</option><option value="nl">Numbered List</option><option vlaue="hr">Horizontal Rule</option></select><select onchange="indents(this);"><option disabled="disabled" selected="selected" value="i">Indents</option><option value="in">Indent</option><option value="out">Outdent</option></select><button onclick="PrintElem('docunent');"><i class="material-icons">print</i></button><button onclick="preview();">Print Preview</button><button onclick="document.execCommand('removeFormat');"><i class="material-icons">format_clear</i></button></div>
 
 <div style="overflow:scroll;width:100%;padding:5px;"><br />
 <br />
